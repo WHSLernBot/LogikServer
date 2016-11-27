@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
-        get("/hello", "application/json", (req, res) -> {
+        post("/hello", "application/json", (req, res) -> {
             
             JsonParser parser = new JsonParser();
             
