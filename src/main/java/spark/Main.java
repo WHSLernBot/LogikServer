@@ -1,26 +1,23 @@
 package spark;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.Iterator;
 import static spark.Spark.*;
 
 public class Main {
 
     public static void main(String[] args) {
+        
         port(getHerokuAssignedPort());
-        post("/hello", "application/json", (req, res) -> {
+        
+        
+        post("/hello", (req, res) -> {
             
-            JsonParser parser = new JsonParser();
             
-            JsonElement element = parser.parse(req.body());
             
-            JsonObject obj = element.getAsJsonObject();
+            return "lol";
             
-            res.type("application/json");
-            res.status(200);
-            
-            return obj;
+      
         });
     }
 
