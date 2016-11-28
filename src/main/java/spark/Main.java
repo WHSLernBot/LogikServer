@@ -2,8 +2,6 @@ package spark;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import static java.lang.Thread.sleep;
-import main.ChatBotManager;
 import static spark.Service.ignite;
 
 public class Main {
@@ -13,10 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         
-        
-        igniteFirstSpark();
-        
-        
+        igniteFirstSpark();  
        
     }
     
@@ -35,6 +30,8 @@ public class Main {
                       .port(getHerokuAssignedPort())
                       .threadPool(POOL_SIZE);
         
+        
+        http.get("/", (req, res) -> "Ja es geht zumindest.");
         
         http.post("/hello", (req, res) -> {
             
@@ -55,10 +52,10 @@ public class Main {
 //            System.out.println(objBody.get("zahlen"));
             
             Rand rd = new Rand(objBody.get("key").getAsInt());
-            System.out.println(ChatBotManager.getInstance().jetzt());
-            sleep(10000);
+//                System.out.println(ChatBotManager.getInstance().jetzt());
+            
             System.out.println(rd.toString());
-            return "Top die Watte quilt";
+            return rd.toString();
       
         });
         
