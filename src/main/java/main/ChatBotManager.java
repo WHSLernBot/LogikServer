@@ -61,6 +61,10 @@ public class ChatBotManager {
         return manager;
     }
     
+    public Timestamp jetzt() {
+        return new Timestamp(calendar.getTime().getTime());
+    }
+    
     /**
      * Gibt den BotPool zurueck.
      * @return 

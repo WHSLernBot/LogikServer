@@ -1,25 +1,78 @@
 package spark;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.util.Iterator;
-import static spark.Spark.*;
+import static java.lang.Thread.sleep;
+import main.ChatBotManager;
+import static spark.Service.ignite;
 
 public class Main {
+    
+    private static final int POOL_SIZE = 20;
+   
 
     public static void main(String[] args) {
         
-        port(getHerokuAssignedPort());
+        
+        igniteFirstSpark();
         
         
-        post("/hello", (req, res) -> {
+       
+    }
+    
+//    static void igniteSecondSpark() {
+//        
+//        Service http = ignite();
+//        
+//        
+//        http.get("/basic", (req, res) -> "Hello World 2");
+//        
+//        
+//    }
+    
+    static void igniteFirstSpark() {
+        Service http = ignite()
+                      .port(getHerokuAssignedPort())
+                      .threadPool(POOL_SIZE);
+        
+        
+        http.post("/hello", (req, res) -> {
             
+            JsonParser parser = new JsonParser();
             
+            String s = req.body();
             
-            return "lol";
+            JsonObject obj= new JsonObject();
             
+            JsonObject objBody;
+            
+            obj.add("body", parser.parse(s));
+            objBody = obj.get("body").getAsJsonObject();
+            
+//            System.out.println(obj.get("body").isJsonPrimitive());
+//            System.out.println(objBody.get("username"));
+//            System.out.println(objBody.get("key"));
+//            System.out.println(objBody.get("zahlen"));
+            
+            Rand rd = new Rand(objBody.get("key").getAsInt());
+            System.out.println(ChatBotManager.getInstance().jetzt());
+            sleep(10000);
+            System.out.println(rd.toString());
+            return "Top die Watte quilt";
       
         });
+        
+        
+        http.get("/hello2", (q, a) -> "Hello from port 1234!");
+        
+        
+        http.get("/hello3", (q, a) -> "Hello from port 5678!");
+        
+        
+        
     }
+    
+    
 
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
